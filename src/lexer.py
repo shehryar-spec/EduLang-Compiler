@@ -2,8 +2,7 @@
 # EduLang Compiler - Lexical Analyzer
 # ============================================================
 
-KEYWORDS = {'int', 'float', 'string', 'if', 'else',
-            'while', 'for', 'return', 'void'}
+
 
 OPERATORS   = {'+', '-', '*', '/'}
 COMPARISONS = {'==', '!=', '<=', '>=', '<', '>'}
