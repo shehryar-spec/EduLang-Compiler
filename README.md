@@ -1,26 +1,63 @@
-# 🚀 EduLang Compiler — Professional Edition
+<h1 align="center">🚀 EduLang Compiler</h1>
+<h3 align="center">A Full-Stack Compiler with a Professional Desktop IDE</h3>
 
-A complete compiler implementation for **EduLang**, a small educational programming language. Built as part of a Compiler Construction Lab project, this tool takes EduLang source code through the full compilation pipeline — lexical analysis, parsing, semantic analysis, and Three Address Code (TAC) generation — with a clean, professional desktop IDE interface.
+<p align="center">
+  <b>Lexer → Parser → Semantic Analyzer → Three Address Code — built from scratch in Python, wrapped in a custom GUI.</b>
+</p>
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Status](https://img.shields.io/badge/status-active-success)
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/CustomTkinter-8B5CF6?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Compiler%20Design-black?style=for-the-badge" />
+</p>
 
 ---
 
-## 📖 About EduLang
+## 📖 Overview
 
-EduLang is a small C-like language supporting:
+**EduLang Compiler** is a complete compiler front-end for **EduLang** — a small C-style teaching language — built as a Compiler Construction lab project. It takes raw EduLang source code through every classical compilation stage: **lexical analysis → syntax parsing → semantic checking → Three Address Code (TAC) generation**, and presents the result in a polished, professional desktop IDE rather than a plain console output.
 
-- Variable declarations (`int`, `float`, `string`)
-- Arithmetic expressions with correct operator precedence
-- Assignment statements
-- `if` / `else` conditional statements
-- `while` loops
-- `for` loops
-- `return` statements
+EduLang supports variable declarations, arithmetic expressions with correct operator precedence, assignment, `if`-`else` statements, `while` loops, `for` loops, and `return` statements.
 
-### Example Program
+---
 
+## ✨ Features
+
+- 🧩 **Lexical Analyzer** — tokenizes source code and flags invalid identifiers, unterminated strings, invalid characters, and malformed numeric literals
+- 🌳 **Syntax Analyzer** — validates program structure with correct operator precedence, reporting missing semicolons, parentheses, and braces with line numbers
+- ✅ **Semantic Analyzer** — detects undeclared variables, type mismatches, invalid comparisons, and incorrect return types
+- 🔁 **`for` loop support** — full lexer, grammar, parser, and semantic-checking extension for `for (init; condition; update) { ... }`, in addition to `while` loops
+- ⚙️ **Three Address Code (TAC) generation** — converts valid programs into optimized intermediate code with proper label/jump handling for control flow
+- 🖥️ **Professional Desktop IDE** — built with CustomTkinter: source editor, tabbed output (Tokens / Lex Errors / Syntax / Semantic / Symbols / TAC / Full Report), and one-click sample loading
+- 📄 **Exportable reports** — full compilation report (tokens, errors, symbol table, TAC) can be saved to `output.txt`
+
+---
+
+## 📸 Preview
+
+**Tokens & Compiler Output**
+<p align="center"><img src="screenshots/tokens.png" width="800" /></p>
+
+**Three Address Code Generation**
+<p align="center"><img src="screenshots/tac.png" width="800" /></p>
+
+**Full Compilation Report**
+<p align="center"><img src="screenshots/full-report.png" width="800" /></p>
+
+**Lexical Error Detection**
+<p align="center"><img src="screenshots/lexical-errors.png" width="800" /></p>
+
+**Syntax Error Detection**
+<p align="center"><img src="screenshots/syntax-errors.png" width="800" /></p>
+
+**Semantic Error Detection**
+<p align="center"><img src="screenshots/semantic-errors.png" width="800" /></p>
+
+---
+
+## 🧪 Example
+
+**Input (EduLang):**
 ```c
 int main() {
     int x = 10;
@@ -39,30 +76,60 @@ int main() {
 }
 ```
 
+**Generated Three Address Code:**
+```
+FUNC main:
+x = 10
+y = 20
+t1 = y * 2
+t2 = x + t1
+z = t2
+if z <= 30 goto L1
+t3 = z - 5
+z = t3
+goto L2
+L1:
+t4 = z + 5
+z = t4
+L2:
+L3:
+if z <= 0 goto L4
+t5 = z - 1
+z = t5
+goto L3
+L4:
+return z
+END main
+```
+
 ---
 
-## ✨ Features
+## 🐞 Error Detection Examples
 
-The compiler is built as a full pipeline, with each stage's output visible in the IDE:
-
-| Stage | Description |
-|---|---|
-| 🔤 **Lexical Analyzer** | Tokenizes source code; detects invalid identifiers, unterminated strings, invalid characters, and wrong numeric formats |
-| 🌳 **Parser** | Builds the program structure, correctly handles operator precedence, and reports syntax errors (missing semicolons, braces, parentheses, invalid statements) |
-| 🧠 **Semantic Analyzer** | Detects undeclared variables, type mismatches, invalid comparisons, and wrong return types |
-| ⚡ **TAC Generator** | Produces optimized Three Address Code without redundant instructions |
-| 📋 **Symbol Table** | Tracks all declared variables with their types and scope |
-| 📄 **Full Report** | Combines Tokens, Errors, Semantic Results, Symbol Table, and TAC into a single exportable `output.txt` |
-
-### 🔁 For Loop Support
-
-The compiler supports `for` loops, translated into equivalent `while`-style TAC:
-
+**Lexical errors:**
 ```c
-for (int i = 0; i < 10; i = i + 1) {
-    x = x + i;
-}
+int 2x = 10;              // Invalid identifier '2x'
+string name = "Ali;       // Unterminated string literal
 ```
+
+**Syntax errors:**
+```
+[ERROR] Syntax Error at line 3: Missing semicolon ';'
+[ERROR] Syntax Error at line 4: Expected ')' but got '{'
+```
+
+**Semantic errors:**
+```
+[ERROR] Semantic Error at line 5: Undeclared variable 'total'
+[ERROR] Semantic Error at line 6: Invalid comparison: cannot compare 'string' with 'int'
+[ERROR] Semantic Error at line 7: Wrong return type: expected 'int' but got 'string'
+```
+
+---
+
+## 🔁 `for` Loop Extension
+
+EduLang was extended beyond its original `while`-only design to support `for` loops end-to-end:
 
 **Grammar:**
 ```
@@ -72,106 +139,84 @@ Condition       -> Expression RelationalOperator Expression
 Update          -> Identifier = Expression
 ```
 
-### 🐞 Error Detection Examples
-
-**Lexical Errors**
-```
-[ERROR] Lexical Error at line 3: Invalid identifier '2x' (identifier cannot start with a digit)
-[ERROR] Lexical Error at line 5: Unterminated string literal: "Ali;
-```
-
-**Syntax Errors**
-```
-[ERROR] Syntax Error at line 3: Missing semicolon ';'
-[ERROR] Syntax Error at line 4: Expected ')' but got '{'
+**Example:**
+```c
+for (int i = 0; i < 3; i = i + 1) {
+    x = x + i;
+}
 ```
 
-**Semantic Errors**
+**Generated TAC:**
 ```
-[ERROR] Semantic Error at line 5: Undeclared variable 'total'
-[ERROR] Semantic Error at line 6: Invalid comparison: cannot compare 'string' with 'int'
-[ERROR] Semantic Error at line 7: Wrong return type: expected 'int' but got 'string'
+i = 0
+L1:
+if i >= 3 goto L2
+t1 = x + i
+x = t1
+t2 = i + 1
+i = t2
+goto L1
+L2:
 ```
 
----
-
-## 🖥️ Screenshots
-
-The IDE includes tabs for **Tokens**, **Lex Errors**, **Syntax**, **Semantic**, **Symbols**, **TAC**, and a combined **Full Report** — plus sample programs you can load directly (Valid Program, Lexical Errors, Syntax Errors, Semantic Errors, For Loop).
+The semantic analyzer also validates `for` loops — checking that the loop variable is properly declared, the condition is a valid relational expression, and the update target is declared.
 
 ---
 
 ## 🛠️ Tech Stack
 
-> _Update this section with your actual stack (e.g. Python + Tkinter/PyQt, Java Swing, C++ Qt, etc.)_
-
-- Language: `<your language here>`
-- GUI Framework: `<your framework here>`
+| Component | Technology |
+|---|---|
+| **Language** | Python |
+| **GUI Framework** | CustomTkinter |
+| **Compiler Stages** | Hand-written Lexer, Recursive-Descent Parser, Semantic Analyzer, TAC Generator |
 
 ---
 
-## 📦 Installation
+## 📁 Project Structure
+
+```
+edulang-compiler/
+├── main.py              # Application entry point / GUI
+├── lexer.py               # Lexical analyzer
+├── parser.py               # Syntax analyzer
+├── semantic_analyzer.py      # Semantic analyzer
+├── tac_generator.py            # Three Address Code generator
+├── samples/                      # Sample EduLang programs (valid + error cases)
+└── output.txt                      # Generated compilation report
+```
+
+---
+
+## ⚙️ Getting Started
 
 ```bash
-# Clone the repository
-git clone https://github.com/<your-username>/edulang-compiler.git
+git clone https://github.com/shehryar-spec/edulang-compiler.git
 cd edulang-compiler
-
-# Install dependencies (edit based on your stack)
-pip install -r requirements.txt
-
-# Run the compiler
+pip install customtkinter
 python main.py
 ```
 
----
-
-## 🚀 Usage
-
-1. Open the app.
-2. Load a sample program from the **Load Sample** dropdown, or write your own EduLang code in the editor.
-3. Click **COMPILE**.
-4. Browse results in the **Tokens / Lex Errors / Syntax / Semantic / Symbols / TAC** tabs.
-5. Click **Save Output** to export everything into `output.txt`.
+Load one of the built-in samples from the **"Load Sample"** dropdown (Valid Program, Lexical Errors, Syntax Errors, Semantic Errors, For Loop) or write your own EduLang code, then hit **Compile**.
 
 ---
 
-## 📂 Output File Structure
+## 🎯 Supported Language Features
 
-Every compilation generates an `output.txt` containing:
-
-```
-[TOKENS]
-[LEXICAL ERRORS]
-[SYNTAX ANALYSIS RESULT]
-[SEMANTIC ANALYSIS RESULT]
-[SYMBOL TABLE]
-[THREE ADDRESS CODE]
-```
-
----
-
-## 📚 Project Context
-
-This project was developed as a submission for a **Compiler Construction Lab Final Exam**, covering:
-
-- **Debugging & Error Detection** — lexical, syntax, and semantic error handling
-- **Feature Extension** — adding full `for` loop support across lexer, grammar, parser, semantic checker, and TAC generator
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](../../issues).
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License — feel free to use and modify it for learning purposes.
+- Variable declarations (`int`, `float`, `string`)
+- Arithmetic expressions with correct operator precedence
+- Assignment statements
+- `if` / `else` conditionals
+- `while` loops
+- `for` loops
+- `return` statements
+- Relational & comparison operators
 
 ---
 
 ## 👤 Author
 
-Made with ❤️ for Compiler Construction Lab.
+**Shehryar Asif**
+Computer Science Undergraduate, University of Wah
+
+[GitHub](https://github.com/shehryar-spec) · [LinkedIn](https://www.linkedin.com/in/shehryar-asif-87107139a) · [Portfolio](https://shehryar-spec.github.io/portfolio/)
